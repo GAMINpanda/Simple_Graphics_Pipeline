@@ -105,23 +105,21 @@ configurations {
 }
 
 dependencies {
-    // ... existing dependencies ...
-    
     // Additional natives for CI/CD cross-platform builds
-    nativesLinux "org.lwjgl:lwjgl::natives-linux"
-    nativesLinux "org.lwjgl:lwjgl-glfw::natives-linux"
-    nativesLinux "org.lwjgl:lwjgl-opengl::natives-linux"
-    nativesLinux "org.lwjgl:lwjgl-stb::natives-linux"
+    nativesLinux "org.lwjgl:lwjgl:$lwjglVersion:natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-linux"
     
-    nativesWindows "org.lwjgl:lwjgl::natives-windows"
-    nativesWindows "org.lwjgl:lwjgl-glfw::natives-windows"
-    nativesWindows "org.lwjgl:lwjgl-opengl::natives-windows"
-    nativesWindows "org.lwjgl:lwjgl-stb::natives-windows"
+    nativesWindows "org.lwjgl:lwjgl:$lwjglVersion:natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-windows"
     
-    nativesMacOS "org.lwjgl:lwjgl::natives-macos"
-    nativesMacOS "org.lwjgl:lwjgl-glfw::natives-macos"
-    nativesMacOS "org.lwjgl:lwjgl-opengl::natives-macos"
-    nativesMacOS "org.lwjgl:lwjgl-stb::natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl:$lwjglVersion:natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-macos"
 }
 
 // Task to copy natives for different platforms
