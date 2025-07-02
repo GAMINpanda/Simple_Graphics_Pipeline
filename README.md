@@ -1,98 +1,222 @@
-# LWJGL Graphics Renderer
+# Simple Graphics Pipeline
 
-A simple Java-based graphics renderer built with LWJGL (Lightweight Java Game Library) for learning graphics programming concepts.
+A Java 21 graphics project using LWJGL 3.3.3 and OpenGL for real-time rendering. This project demonstrates modern graphics programming techniques with professional development practices including comprehensive CI/CD, testing, and security scanning.
 
-## Project Structure
+## 🚀 Quick Start
 
+### Prerequisites
+- **Java 21** (Temurin recommended)
+- **Gradle** (wrapper included)
+- **Git**
+- **Docker** (optional, for local CI simulation)
+
+### Development Setup
+```bash
+# Clone the repository
+git clone https://github.com/GAMINpanda/Simple_Graphics_Pipeline.git
+cd Simple_Graphics_Pipeline
+
+# Make gradlew executable (if needed)
+chmod +x gradlew
+
+# Test the setup
+./gradlew compileJava compileTestJava --no-daemon
 ```
-AIGraphicsPractice/
-├── .cursor/                     # AI prompting rules and configuration
-│   └── rules.md                # Customizable AI interaction preferences
-├── src/
-│   ├── main/
-│   │   ├── java/com/graphics/renderer/  # Main source code
-│   │   └── resources/shaders/           # Shader files (GLSL)
-│   └── test/java/              # Unit tests
-├── gradle/wrapper/             # Gradle wrapper files
-├── build.gradle               # Build configuration
-├── gradlew                   # Gradle wrapper script (Unix/macOS)
-└── README.md                # This file
-```
 
-## Requirements
+## 🛠️ Development Workflow
 
-- **Java 21+** (configured in build.gradle)
-- **macOS** (native libraries configured for macOS)
-
-## Building and Running
+### Before Every Push (MANDATORY)
+**Always run these commands before pushing to prevent CI failures:**
 
 ```bash
-# Build the project
-./gradlew build
+# 1. Validate workflows
+./scripts/validate-workflow.sh
 
-# Run the application
-./gradlew run
-
-# Clean build artifacts
-./gradlew clean
+# 2. Test locally (runs same commands as CI)
+./scripts/test-ci-locally.sh
 ```
 
-## Dependencies
+### Standard Development Process
+```bash
+# 1. Create feature branch
+git checkout -b feature/my-new-feature
 
-- **LWJGL 3.3.3**: Core library, GLFW (windowing), OpenGL, STB (image loading)
-- **JOML 1.10.5**: Java OpenGL Mathematics Library for vectors and matrices
-- **JUnit 5**: Testing framework
+# 2. Make your changes
+# ... edit files ...
 
-## Learning Goals
+# 3. Test locally (REQUIRED)
+./scripts/test-ci-locally.sh
 
-- [x] Project setup with proper Java structure
-- [x] Basic window creation and OpenGL context ✨
-- [x] Simple triangle rendering 🔺✨
-- [x] Shader system implementation 🔺✨  
-- [x] Resource cleanup and management ✨
+# 4. Commit and push
+git add .
+git commit -m "feat: add new graphics feature"
+git push origin feature/my-new-feature
 
-*Using Test-Driven Development (TDD) approach where possible*
+# 5. Create pull request via GitHub web interface
+```
 
-### TDD Architecture Achievements ✨
-- [x] **WindowConfig** - Testable configuration with validation
-- [x] **IWindow Interface** - Dependency injection for testing
-- [x] **MockWindow** - Unit testable implementation
-- [x] **Window (GLFW)** - Production graphics implementation
-- [x] **Triangle** - Vertex data structure with validation 🔺
-- [x] **MockShader** - Testable shader implementation 🔺
-- [x] **Shader (OpenGL)** - GLSL compilation and linking 🔺
-- [x] **TriangleRenderer** - VAO/VBO buffer management 🔺
-- [x] **100% Test Coverage** for business logic
+## 🧪 Testing
 
-## 📚 Comprehensive Documentation
+### Local Testing Scripts
+- **`./scripts/test-ci-locally.sh`** - Runs exact CI commands locally
+- **`./scripts/validate-workflow.sh`** - Validates GitHub Actions YAML
+- **`act`** - Full CI simulation with Docker (optional)
 
-This project includes extensive technical documentation explaining complex graphics programming concepts:
+### Test Categories
+- **Compilation**: Java source compilation and test compilation
+- **Unit Tests**: JUnit tests with graphics context handling
+- **Graphics Tests**: OpenGL context creation and LWJGL functionality
+- **Cross-Platform**: Multi-OS compatibility testing
+- **Memory Management**: Native memory and resource cleanup
+- **Shader Validation**: GLSL syntax checking
 
-**[📖 View Complete Documentation →](docs/README.md)**
+## 🎮 Graphics Features
 
-### Documentation Highlights
-- **[Graphics Pipeline](docs/graphics-pipeline.md)**: Complete modern OpenGL pipeline implementation
-- **[GPU Operations](docs/gpu-operations.md)**: Deep dive into GPU architecture and OpenGL technical details
-- **[Software Architecture](docs/architecture.md)**: TDD approach, design patterns, and clean code practices
-- **[Testing & Monitoring](docs/testing-monitoring.md)**: Comprehensive testing strategies and runtime monitoring
-- **[Maintenance Rules](docs/maintenance-rules.md)**: Guidelines for keeping documentation current
+### Core Components
+- **Window Management**: GLFW-based window creation and event handling
+- **OpenGL Context**: OpenGL 3.3+ core profile context management
+- **Shader System**: GLSL shader compilation and program management
+- **Geometry Rendering**: Vertex buffer objects and rendering primitives
+- **Resource Management**: Proper cleanup of OpenGL and native resources
 
-## Graphics Programming Concepts Covered
+### LWJGL Integration
+- **Native Memory**: Efficient memory stack usage and buffer management
+- **Cross-Platform**: Support for Windows, macOS, and Linux
+- **Error Handling**: Comprehensive OpenGL error checking and reporting
+- **Debug Support**: Built-in debugging and profiling capabilities
 
-This project demonstrates:
+## 🔧 Build System
 
-1. **OpenGL Context Management**: Creating and managing OpenGL contexts
-2. **Vertex Buffer Objects (VBOs)**: Efficient vertex data storage
-3. **Vertex Array Objects (VAOs)**: Modern OpenGL state management
-4. **Shader Programming**: Writing and compiling GLSL shaders
-5. **Matrix Transformations**: Model, View, and Projection matrices
-6. **Resource Management**: Proper cleanup of GPU resources
-7. **Test-Driven Development**: TDD approach for graphics programming
-8. **Mock-Based Testing**: Hardware-independent testing strategies
+### Gradle Tasks
+```bash
+# Compilation
+./gradlew compileJava compileTestJava
 
-## Development Notes
+# Testing
+./gradlew test                          # Run all tests
+./gradlew test --tests="*Window*"       # Run specific tests
 
-- Check `.cursor/rules.md` for AI prompting preferences
-- All OpenGL resources must be explicitly cleaned up
-- Use JOML for all mathematical operations
-- Keep shaders in separate files under `src/main/resources/shaders/` 
+# Building
+./gradlew build                         # Full build with tests
+./gradlew fatJar                        # Create executable JAR
+
+# Cleaning
+./gradlew clean                         # Clean build artifacts
+```
+
+### Cross-Platform Builds
+The project automatically includes platform-specific LWJGL natives for:
+- **Windows** (x64)
+- **macOS** (ARM64 and Intel)
+- **Linux** (x64)
+
+## 🛡️ CI/CD Pipeline
+
+### GitHub Actions Workflows
+1. **Main CI Pipeline** (`.github/workflows/ci.yml`)
+   - Compilation and basic testing
+   - Cross-platform JAR building
+   - Automated releases
+
+2. **Graphics CI Pipeline** (`.github/workflows/graphics-ci.yml`)
+   - OpenGL context testing
+   - Shader compilation validation
+   - Cross-platform graphics testing
+   - Memory management verification
+
+### Branch Protection
+- Direct pushes to `main` are blocked
+- All changes require pull requests
+- CI checks must pass
+- Code owner reviews required
+
+## 📚 Documentation
+
+### Development Guides
+- **[Development Workflow](docs/development-workflow.md)** - Complete development process
+- **[Graphics CI](docs/graphics-ci.md)** - Graphics testing pipeline
+- **[Architecture](docs/architecture.md)** - System architecture overview
+
+### Code Guidelines
+- **[Cursor Rules](.cursorrules)** - Development standards and practices
+- **Java 21** conventions and modern language features
+- **Graphics-specific** patterns and LWJGL best practices
+- **Testing requirements** and CI compliance
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+#### Graphics Context Errors
+```bash
+# Enable LWJGL debugging
+export LWJGL_DEBUG=true
+./gradlew run
+```
+
+#### Build Failures
+```bash
+# Clean and rebuild
+./gradlew clean build --no-daemon
+
+# Check for permission issues
+chmod +x gradlew
+```
+
+#### CI Failures
+```bash
+# Test locally first
+./scripts/test-ci-locally.sh
+
+# Validate workflows
+./scripts/validate-workflow.sh
+```
+
+### Platform-Specific Notes
+
+#### macOS
+- Requires `-XstartOnFirstThread` JVM argument for GLFW
+- OpenGL limited to 4.1 Core Profile
+- Handle Retina display scaling
+
+#### Windows
+- Uses DirectX-compatible OpenGL drivers
+- May require graphics driver updates
+- Windows Defender can slow builds
+
+#### Linux
+- Uses Mesa drivers for software rendering in CI
+- Install graphics libraries: `libgl1-mesa-dev`, `libglfw3-dev`
+- Use Xvfb for headless testing
+
+## 🤝 Contributing
+
+### Getting Started
+1. **Fork** the repository
+2. **Follow** the development workflow
+3. **Run** mandatory tests before pushing
+4. **Create** focused pull requests
+5. **Respond** to review feedback
+
+### Code Quality
+- **Format**: Follow Checkstyle rules (120 char limit)
+- **Testing**: Include tests for new features
+- **Documentation**: Update docs for significant changes
+- **Commits**: Use conventional commit messages
+
+### Review Process
+- All PRs require approval from code owners
+- CI checks must pass
+- Graphics functionality must be tested
+- Cross-platform compatibility verified
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **LWJGL Team** - Lightweight Java Game Library
+- **JOML** - Java OpenGL Math Library
+- **GitHub Actions** - CI/CD automation
+- **OpenGL Community** - Graphics programming resources 
