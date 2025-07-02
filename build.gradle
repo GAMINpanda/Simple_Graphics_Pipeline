@@ -1,0 +1,145 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.graphics'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext.lwjglVersion = "3.3.3"
+project.ext.jomlVersion = "1.10.5"
+
+dependencies {
+    // LWJGL Core
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+    
+    // LWJGL modules
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-glfw"
+    implementation "org.lwjgl:lwjgl-opengl"
+    implementation "org.lwjgl:lwjgl-stb"
+    
+    // LWJGL natives for Apple Silicon (aarch64) macOS
+    runtimeOnly "org.lwjgl:lwjgl::natives-macos-arm64"
+    runtimeOnly "org.lwjgl:lwjgl-glfw::natives-macos-arm64"
+    runtimeOnly "org.lwjgl:lwjgl-opengl::natives-macos-arm64"
+    runtimeOnly "org.lwjgl:lwjgl-stb::natives-macos-arm64"
+    
+    // JOML for mathematics
+    implementation "org.joml:joml:${jomlVersion}"
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Configure the main class
+application {
+    mainClass = 'com.graphics.renderer.Main'
+}
+
+// Configure test framework
+test {
+    useJUnitPlatform()
+}
+
+// JVM arguments for proper LWJGL operation
+run {
+    jvmArgs = [
+        '-XstartOnFirstThread', // Required for GLFW on macOS
+        '--enable-preview'       // Enable Java preview features if needed
+    ]
+}
+
+// Gradle wrapper configuration
+wrapper {
+    gradleVersion = '8.4'
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+// Configure JAR manifest
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.graphics.renderer.Main',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'Graphics Renderer Project'
+        )
+    }
+}
+
+// Create a fat JAR with all dependencies
+task fatJar(type: Jar) {
+    archiveClassifier = 'all'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    manifest {
+        attributes(
+            'Main-Class': 'com.graphics.renderer.Main',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+// Add platform-specific natives for CI/CD
+configurations {
+    nativesLinux
+    nativesWindows
+    nativesMacOS
+}
+
+dependencies {
+    // ... existing dependencies ...
+    
+    // Additional natives for CI/CD cross-platform builds
+    nativesLinux "org.lwjgl:lwjgl::natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-glfw::natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-opengl::natives-linux"
+    nativesLinux "org.lwjgl:lwjgl-stb::natives-linux"
+    
+    nativesWindows "org.lwjgl:lwjgl::natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-glfw::natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-opengl::natives-windows"
+    nativesWindows "org.lwjgl:lwjgl-stb::natives-windows"
+    
+    nativesMacOS "org.lwjgl:lwjgl::natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-glfw::natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-opengl::natives-macos"
+    nativesMacOS "org.lwjgl:lwjgl-stb::natives-macos"
+}
+
+// Task to copy natives for different platforms
+task copyNatives {
+    doLast {
+        copy {
+            from configurations.nativesLinux
+            into 'build/natives/linux'
+        }
+        copy {
+            from configurations.nativesWindows
+            into 'build/natives/windows'
+        }
+        copy {
+            from configurations.nativesMacOS
+            into 'build/natives/macos'
+        }
+    }
+}
+
+build.dependsOn copyNatives 
