@@ -77,7 +77,7 @@ jobs:
       run: ./gradlew jar --no-daemon
     
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: jar-${{ matrix.os }}
         path: build/libs/*.jar
