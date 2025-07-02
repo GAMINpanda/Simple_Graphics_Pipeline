@@ -49,4 +49,12 @@ logs/
 crashes/
 
 # Local configuration
-local.properties 
+local.properties
+
+# Configuration files (exclude most, but keep project configs)
+*.properties
+*.xml
+!gradle.properties
+!**/checkstyle.xml
+!**/suppressions.xml
+!build.gradle

@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'application'
+    id 'checkstyle'
+    id 'org.owasp.dependencycheck' version '8.4.0'
 }
 
 group = 'com.graphics'
@@ -156,4 +158,20 @@ task copyNatives {
     }
 }
 
-build.dependsOn copyNatives 
+build.dependsOn copyNatives
+
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '10.12.4'
+    configFile = file('config/checkstyle/checkstyle.xml')
+}
+
+// OWASP Dependency Check configuration
+dependencyCheck {
+    formats = ['HTML', 'XML']
+    suppressionFile = 'config/dependencycheck/suppressions.xml'
+    failBuildOnCVSS = 7.0
+    nvd {
+        apiKey = System.getenv('NVD_API_KEY') ?: ''
+    }
+} 

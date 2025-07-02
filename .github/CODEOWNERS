@@ -1,0 +1,13 @@
+# Global code owners
+* @GAMINpanda
+
+# Critical files require extra review
+/.github/ @GAMINpanda
+/build.gradle @GAMINpanda
+/gradle.properties @GAMINpanda
+/src/main/java/com/graphics/renderer/Main.java @GAMINpanda
+
+# Documentation
+/docs/ @GAMINpanda
+README.md @GAMINpanda
+CONTRIBUTING.md @GAMINpanda 
