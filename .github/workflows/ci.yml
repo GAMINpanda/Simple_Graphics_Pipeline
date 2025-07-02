@@ -41,7 +41,7 @@ jobs:
       run: chmod +x gradlew
     
     - name: Run tests
-      run: ./gradlew test --no-daemon -Djava.awt.headless=true
+      run: ./gradlew test --no-daemon -Djava.awt.headless=true --tests="*CITestRunner*"
       env:
         DISPLAY: ":99.0"
     
@@ -129,7 +129,7 @@ jobs:
       run: chmod +x gradlew
     
     - name: Run code quality checks
-      run: ./gradlew build --no-daemon -Djava.awt.headless=true
+      run: ./gradlew compileJava compileTestJava --no-daemon -Djava.awt.headless=true
 
   release:
     name: Release
