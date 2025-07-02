@@ -47,9 +47,11 @@ jobs:
           xvfb \
           mesa-utils \
           libgl1-mesa-dri \
-          libgl1-mesa-glx \
+          libgl1-mesa-dev \
           libglfw3 \
-          libglfw3-dev
+          libglfw3-dev \
+          libegl1-mesa-dev \
+          libgles2-mesa-dev
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -98,7 +100,7 @@ jobs:
     - name: Install Graphics Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-glx
+        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-dev
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -166,7 +168,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-glx
+        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-dev
     
     - name: Grant execute permission for gradlew (Unix)
       if: runner.os != 'Windows'
@@ -229,7 +231,7 @@ jobs:
     - name: Install Graphics Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-glx
+        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-dev
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -282,7 +284,7 @@ jobs:
     - name: Install Graphics Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-glx
+        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri libgl1-mesa-dev
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
