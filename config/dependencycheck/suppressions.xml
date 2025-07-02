@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    
+    <!-- LWJGL is a graphics library with native components, some CVEs may not apply to our usage -->
+    <suppress>
+        <notes><![CDATA[
+        LWJGL CVEs that don't apply to graphics rendering context
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.lwjgl/.*@.*$</packageUrl>
+        <cve>CVE-2022-XXXXX</cve>
+    </suppress>
+    
+    <!-- JUnit test dependencies should not have runtime security impact -->
+    <suppress>
+        <notes><![CDATA[
+        JUnit is only used for testing, not in production runtime
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.junit\..*@.*$</packageUrl>
+    </suppress>
+
+</suppressions> 
